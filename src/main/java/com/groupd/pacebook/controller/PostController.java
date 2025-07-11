@@ -22,7 +22,7 @@ public class PostController {
 
     @PostMapping
     public String createPost(@ModelAttribute PostDto postDto) {
-        postService.savePost(postDto.getContent(), postDto.getTitle(),"jane@example.com");
+        postService.savePost(postDto.getContent(), postDto.getTitle(),"john@example.com");
         return "redirect:/home";
     }
 

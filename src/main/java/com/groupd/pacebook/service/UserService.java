@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class UserService {
@@ -45,4 +46,21 @@ public class UserService {
     public void updateUser(User user){
         userRepo.save(user);
     }
+
+    public Set<User> getFriends(String email) {
+        User user = userRepo.findByEmail(email).orElseThrow();
+        return user.getFriends();
+    }
+
+    public void removeFriend(String email, Long id) {
+        User user = userRepo.findByEmail(email).orElseThrow();
+        User friend = userRepo.findById(id).orElseThrow();
+
+        user.getFriends().remove(friend);
+        friend.getFriends().remove(user);
+
+        userRepo.save(user);
+        userRepo.save(friend);
+    }
+
 }

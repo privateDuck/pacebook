@@ -20,7 +20,7 @@ public class LikeController {
 
     @PostMapping("/toggle/{id}")
     public String addlikes(@PathVariable("id") Long id, String email) {
-        email = "jane@example.com";
+        email = "john@example.com";
         likeService.likePost(id, email);
         return "redirect:/home";
     }
