@@ -16,8 +16,21 @@
         <div class="card-body">
             <form th:action="@{/posts}" method="post" th:object="${postDto}">
                 <div class="mb-3">
+                    <label for="title" class="form-label">Title</label>
+                    <input type="text"
+                           class="form-control"
+                           id="title"
+                           placeholder="Enter a title"
+                           th:field="*{title}"
+                           required />
+                </div>
+                <div class="mb-3">
                     <label for="content" class="form-label">What's on your mind?</label>
-                    <textarea class="form-control" id="content" rows="3" th:field="*{content}" required></textarea>
+                    <textarea class="form-control"
+                              id="content"
+                              rows="3"
+                              th:field="*{content}"
+                              required></textarea>
                 </div>
                 <button type="submit" class="btn btn-primary">Post</button>
             </form>

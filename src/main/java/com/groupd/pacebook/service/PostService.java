@@ -57,9 +57,5 @@ public class PostService {
         postRepository.save(post);
     }
 
-    public void likePost(Long id, String email) {
-        User user = userRepository.findByEmail(email).orElseThrow();
-        Post post = postRepository.findById(id).orElseThrow();
-        post.getLikedBy().add(user);
-    }
+
 }
