@@ -1,6 +1,7 @@
 package com.groupd.pacebook.controller;
 
 import com.groupd.pacebook.model.User;
+import com.groupd.pacebook.service.FriendService;
 import com.groupd.pacebook.service.UserService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
