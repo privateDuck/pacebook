@@ -23,12 +23,24 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public String registerUser(@ModelAttribute("user") User user, BindingResult result) {
-        if (result.hasErrors()) return "register";
-        if (userService.loadUserByUsername(user.getEmail()) != null) {
-            result.rejectValue("email", null, "Email already registered");
+    public String registerUser(@ModelAttribute("user") User user, BindingResult result, Model model) {
+        // No @Valid so manual validation if needed
+
+        // Example simple validation (optional)
+        if (user.getEmail() == null || user.getEmail().isEmpty()) {
+            result.rejectValue("email", null, "Email is required");
             return "register";
         }
+        if (user.getPassword() == null || user.getPassword().isEmpty()) {
+            result.rejectValue("password", null, "Password is required");
+            return "register";
+        }
+
+        if (userService.findByEmail(user.getEmail()).isPresent()) {
+            result.rejectValue("email", null, "Email is already registered");
+            return "register";
+        }
+
         userService.registerUser(user);
         return "redirect:/login";
     }

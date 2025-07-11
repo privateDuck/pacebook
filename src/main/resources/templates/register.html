@@ -1,20 +1,121 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><title>Register</title></head>
+<head>
+    <title>Register</title>
+    <style>
+        body {
+            background-color: #2c3e50;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .register-container {
+            background-color: #34495e;
+            padding: 30px 40px;
+            border-radius: 8px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+            width: 320px;
+            color: #ecf0f1;
+            box-sizing: border-box;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            font-weight: bold;
+            font-size: 24px;
+        }
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            margin-top: 15px;
+        }
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px 12px;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            box-sizing: border-box;
+            outline: none;
+            transition: box-shadow 0.3s ease;
+        }
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="password"]:focus {
+            box-shadow: 0 0 5px 2px #2980b9;
+        }
+        button {
+            margin-top: 25px;
+            width: 100%;
+            background-color: #2980b9;
+            border: none;
+            padding: 12px 0;
+            color: #ecf0f1;
+            font-weight: bold;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #1c5980;
+        }
+        .back-to-login {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .back-to-login a {
+            color: #ecf0f1;
+            font-weight: 600;
+            text-decoration: none;
+        }
+        .back-to-login a:hover {
+            text-decoration: underline;
+        }
+        .error-message {
+            color: #e74c3c;
+            font-size: 13px;
+            margin-top: 4px;
+        }
+    </style>
+</head>
 <body>
-<h2>Register</h2>
-<form th:action="@{/register}" th:object="${user}" method="post">
-    <label>First Name: <input th:field="*{''}"/></label><br>
-    <label>Last Name: <input th:field="*{''}"/></label><br>
-    <label>Email: <input th:field="*{email}"/></label><br>
-    <label>Password: <input th:field="*{password}" type="password"/></label><br>
-    <button type="submit">Register</button>
-</form>
-<div th:if="${#fields.hasErrors()}">
-    <ul>
-        <li th:each="err : ${#fields.errors('*')}" th:text="${err}"></li>
-    </ul>
+<div class="register-container">
+    <h2>Register</h2>
+
+    <form th:action="@{/register}" th:object="${user}" method="post">
+        <label>Username:</label>
+        <input type="text" th:field="*{username}" placeholder="Enter your username" />
+        <div th:if="${#fields.hasErrors('username')}" class="error-message" th:errors="*{username}"></div>
+
+        <label>First Name:</label>
+        <input type="text" th:field="*{firstName}" placeholder="Enter your first name" />
+        <div th:if="${#fields.hasErrors('firstName')}" class="error-message" th:errors="*{firstName}"></div>
+
+        <label>Last Name:</label>
+        <input type="text" th:field="*{lastName}" placeholder="Enter your last name" />
+        <div th:if="${#fields.hasErrors('lastName')}" class="error-message" th:errors="*{lastName}"></div>
+
+        <label>Email:</label>
+        <input type="email" th:field="*{email}" placeholder="Enter your email" />
+        <div th:if="${#fields.hasErrors('email')}" class="error-message" th:errors="*{email}"></div>
+
+        <label>Password:</label>
+        <input type="password" th:field="*{password}" placeholder="Enter your password" />
+        <div th:if="${#fields.hasErrors('password')}" class="error-message" th:errors="*{password}"></div>
+
+        <button type="submit">Register</button>
+    </form>
+
+    <div class="back-to-login">
+        <p>Already have an account? <a th:href="@{/login}">Login</a></p>
+    </div>
 </div>
-<a th:href="@{/login}">Back to login</a>
 </body>
 </html>
