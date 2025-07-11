@@ -44,45 +44,6 @@
             color: white;
         }
 
-        .profile-card {
-            max-width: 20rem;
-            margin: 0 auto;
-            background: white;
-            border-radius: 16px;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-            padding: 2rem;
-        }
-
-        .profile-img {
-            width: 6rem;
-            height: 6rem;
-            border-radius: 50%;
-            display: block;
-            margin: 0 auto;
-        }
-
-        .message-btn {
-            background: transparent;
-            color: #7c3aed;
-            border: 1px solid #e9d5ff;
-            border-radius: 20px;
-            padding: 0.25rem 1rem;
-            font-size: 0.875rem;
-            font-weight: 600;
-            transition: all 0.2s;
-        }
-
-        .message-btn:hover {
-            background: #7c3aed;
-            color: white;
-            border-color: transparent;
-        }
-
-        .message-btn:focus {
-            outline: none;
-            box-shadow: 0 0 0 2px #7c3aed;
-        }
-
         .text-slate-500 {
             color: #71767b;
         }
@@ -104,34 +65,114 @@
             height: fit-content;
         }
 
-        .friends-sidebar .profile-card {
-            max-width: 100%;
+        /* Color classes for avatars */
+        .color-1 { background: linear-gradient(135deg, #ff6b6b, #ee5a6f); }
+        .color-2 { background: linear-gradient(135deg, #4ecdc4, #44a08d); }
+        .color-3 { background: linear-gradient(135deg, #45b7d1, #96c93d); }
+        .color-4 { background: linear-gradient(135deg, #f093fb, #f5576c); }
+        .color-5 { background: linear-gradient(135deg, #4facfe, #00f2fe); }
+        .color-6 { background: linear-gradient(135deg, #43e97b, #38f9d7); }
+        .color-7 { background: linear-gradient(135deg, #fa709a, #fee140); }
+        .color-8 { background: linear-gradient(135deg, #a8edea, #fed6e3); }
+        .color-9 { background: linear-gradient(135deg, #ffecd2, #fcb69f); }
+        .color-10 { background: linear-gradient(135deg, #667eea, #764ba2); }
+        .color-11 { background: linear-gradient(135deg, #f093fb, #f5576c); }
+        .color-12 { background: linear-gradient(135deg, #4facfe, #00f2fe); }
+
+        /* Redesigned Friend Cards */
+        .friend-card {
+            background: #161618;
+            border: 1px solid #2f3336;
+            border-radius: 16px;
+            margin-bottom: 12px;
+            padding: 16px;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .friend-card:hover {
+            background: #1a1a1c;
+            border-color: #3a3a3c;
+        }
+
+        .friend-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 0;
+        }
+
+        .friend-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            position: relative;
+        }
+
+        .friend-avatar svg {
+            width: 22px;
+            height: 22px;
+            fill: white;
+        }
+
+        .friend-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .friend-name {
+            font-weight: 700;
+            color: #e7e9ea;
+            font-size: 15px;
             margin: 0;
-            padding: 1rem;
+            line-height: 1.2;
         }
 
-        .friends-sidebar .profile-img {
-            width: 3rem;
-            height: 3rem;
+        .friend-stats {
+            font-size: 13px;
+            color: #71767b;
+            margin: 2px 0 0 0;
         }
 
-        @media (min-width: 768px) {
-            .friends-sidebar .profile-card {
-                display: flex;
-                align-items: center;
-                justify-content: flex-start;
-                text-align: left;
-            }
+        .friend-actions {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 8px;
+        }
 
-            .friends-sidebar .profile-content {
-                text-align: left !important;
-                margin-left: 1rem;
-                margin-bottom: 0 !important;
-            }
+        .friend-btn {
+            background: transparent;
+            border: 1px solid #2f3336;
+            color: #e7e9ea;
+            border-radius: 20px;
+            padding: 6px 12px;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            text-align: center;
+        }
 
-            .friends-sidebar .profile-content .mb-2 {
-                margin-bottom: 0.5rem !important;
-            }
+        .friend-btn:hover {
+            background: #2f3336;
+            border-color: #3a3a3c;
+        }
+
+        .friend-btn.remove-btn {
+            border-color: #f4212e;
+            color: #f4212e;
+            min-width: 80px;
+        }
+
+        .friend-btn.remove-btn:hover {
+            background: #f4212e;
+            border-color: #f4212e;
+            color: #ffffff;
         }
 
         @media (max-width: 767px) {
@@ -166,7 +207,6 @@
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #1da1f2, #0d8bd9);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -349,7 +389,7 @@
 
     <div class="row">
         <!-- Main Content Column -->
-        <div class="col-lg-8 col-md-7">
+        <div class="col-lg-8 col-md-7" style="padding-right: 2rem;">
             <!-- Create Post Form -->
             <div class="card mb-4 create-post-form">
                 <div class="card-body">
@@ -388,7 +428,7 @@
 
             <div th:each="post : ${posts}" class="post-card">
                 <div class="post-header">
-                    <div class="post-avatar">
+                    <div class="post-avatar" th:classappend="${'color-' + ((post.id % 12) + 1)}">
                         <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
                         </svg>
@@ -425,30 +465,32 @@
         </div>
 
         <!-- Friends Sidebar -->
-        <div class="col-lg-4 col-md-5">
+        <div class="col-lg-4 col-md-5" style="padding-left: 2rem;">
             <div class="friends-sidebar">
                 <h4 class="feed-title">Friends</h4>
                 <div th:if="${#lists.isEmpty(friends)}">
                     <p style="color: #71767b; text-align: center; padding: 20px;">No friends yet. Add some friends to see them here.</p>
                 </div>
-                <div class="card mb-4" th:each="friend : ${friends}">
-                    <div class="profile-card">
-                        <img src="https://tailwindcss.com/img/erin-lindford.jpg" alt="Woman's Face" class="profile-img">
-                        <div class="profile-content text-center mb-3">
-                            <div class="mb-2">
-                                <p class="fs-5 text-dark fw-semibold mb-0" th:text="${friend.username}">
-                                    Username
-                                </p>
-                                <p class="text-slate-500 fw-medium mb-2">
-                                    <span th:text="${friend.getFriends().size() == 0 ? 'No Friends' :
-                                               (friend.getFriends().size() == 1 ? '1 Friend' :
-                                                friend.getFriends().size() + ' Friends')}">0 Friends
-                                    </span>
-                                </p>
-                            </div>
-                            <form th:action="@{'/home/friends/remove/' + ${friend.id}}" method="post">
-                                <button class="message-btn btn mt-2"
-                                        type="submit">Remove Friend</button>
+
+                <div th:each="friend : ${friends}" class="friend-card">
+                    <div class="friend-header">
+                        <div class="friend-avatar" th:classappend="${'color-' + ((friend.id % 12) + 1)}">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                            </svg>
+                        </div>
+                        <div class="friend-info">
+                            <p class="friend-name" th:text="${friend.username}">Username</p>
+                            <p class="friend-stats">
+                                <span th:text="${friend.getFriends().size() == 0 ? 'No friends' :
+                                           (friend.getFriends().size() == 1 ? '1 friend' :
+                                            friend.getFriends().size() + ' friends')}">0 friends
+                                </span>
+                            </p>
+                        </div>
+                        <div class="friend-actions">
+                            <form th:action="@{'/home/friends/remove/' + ${friend.id}}" method="post" style="display: inline;">
+                                <button class="friend-btn remove-btn" type="submit">Remove</button>
                             </form>
                         </div>
                     </div>
