@@ -43,4 +43,8 @@ public class UserService {
     public void updateUser(User user){
         userRepo.save(user);
     }
+
+    public User findByEmail(String email) {
+        return userRepo.findByEmail(email).orElse(null);
+    }
 }
