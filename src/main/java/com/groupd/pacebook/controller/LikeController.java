@@ -19,7 +19,8 @@ public class LikeController {
     }
 
     @PostMapping("/toggle/{id}")
-    public addlikes(@PathVariable Long id) {
-
+    public void addlikes(@PathVariable Long id, String email) {
+        email = "john@example.com";
+        likeService.likePost(id, email);
     }
 }
