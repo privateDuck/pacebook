@@ -10,10 +10,12 @@ import java.util.List;
 @Service
 public class UserService {
 
+    private final UserRepository userRepo;
+
     @Autowired
-    UserRepository userRepo;
-    @Autowired
-    private User user;
+    public UserService(UserRepository userRepo){
+        this.userRepo = userRepo;
+    }
 
     public User getUserById(Long id){
         return userRepo.findById(id).orElse(new User());

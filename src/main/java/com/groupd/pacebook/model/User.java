@@ -122,4 +122,12 @@ public class User {
     public void sendRequestTo(User user) {
         this.sentRequests.add(user);
     }
+
+    public Set<Post> getLikedPosts() {
+        return likedPosts;
+    }
+
+    public void setLikedPosts(Set<Post> likedPosts) {
+        this.likedPosts = likedPosts;
+    }
 }
