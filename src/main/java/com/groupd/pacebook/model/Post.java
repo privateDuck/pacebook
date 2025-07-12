@@ -25,6 +25,16 @@ public class Post {
     private String content;
     private LocalDateTime timestamp;
 
+    public Post() {
+        // Default constructor required by JPA
+    }
+
+    public Post(User author, String title, String content) {
+        this.author = author;
+        this.title = title;
+        this.content = content;
+    }
+
     public Long getId() {
         return id;
     }
