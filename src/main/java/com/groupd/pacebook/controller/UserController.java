@@ -20,9 +20,11 @@ import java.util.Set;
 public class UserController {
 
     private final UserService userService;
+    private final FriendService friendService;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, FriendService friendService) {
         this.userService = userService;
+        this.friendService = friendService;
     }
 
     @GetMapping("/register")
@@ -65,5 +67,42 @@ public class UserController {
     public String logout() {
         SecurityContextHolder.clearContext();
         return "redirect:/";
+    }
+
+    // Kaushika's additions
+    @GetMapping("/users")
+    public String showAllUsers(Model model, @AuthenticationPrincipal UserDetails userDetails) {
+        if (userDetails == null) {
+            return "redirect:/login"; // Redirect if user is not authenticated
+        }
+
+        User currentUser = userService.findByEmail(userDetails.getUsername());
+
+        List<User> users = userService.getUsers().stream()
+                .filter(user -> !user.getId().equals(currentUser.getId()))
+                .toList();
+
+        model.addAttribute("users", users);
+        model.addAttribute("currentUser", currentUser);
+        return "user-directory";
+    }
+
+    @PostMapping("/users/send-request/{receiverId}")
+    public String sendFriendRequest(@PathVariable Long receiverId,
+                                    @AuthenticationPrincipal UserDetails userDetails,
+                                    Model model) {
+        if (userDetails == null) {
+            return "redirect:/login";
+        }
+
+        User sender = userService.findByEmail(userDetails.getUsername());
+
+        boolean success = friendService.sendFriendRequest(sender.getId(), receiverId);
+
+        if (!success) {
+            model.addAttribute("error", "Friend request failed or already sent.");
+        }
+
+        return "redirect:/users"; // Redirect back to user directory
     }
 }
