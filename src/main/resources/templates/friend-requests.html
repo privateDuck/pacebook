@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Friend Requests</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+</head>
+<body>
+<div class="container mt-5">
+    <h2>Incoming Friend Requests</h2>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>Sender</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="requestingUser : ${requestingUsers}">
+            <td th:text="${requestingUser.getUsername()}"></td>
+            <td>
+                <form th:action="@{/accept/{user_id}(user_id=${requestingUser.getId()})}" method="post" style="display:inline-block">
+                    <button type="submit" class="btn btn-success btn-sm">Accept</button>
+                </form>
+                <form th:action="@{/decline/{user_id}(user_id=${requestingUser.getId()})}" method="post" style="display:inline-block">
+                    <button type="submit" class="btn btn-danger btn-sm">Decline</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h2 class="mt-5">Outgoing Friend Requests</h2>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>Receiver</th>
+            <th>Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="requestedUser : ${requestedUsers}">
+            <td th:text="${requestedUser.getUsername()}"></td>
+            <td>Pending</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

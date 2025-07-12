@@ -20,6 +20,9 @@ public class User {
     private String email;
     private String password;
 
+    private String firstName;
+    private String lastName;
+
     // One-to-Many with Post
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
     private List<Post> posts = new ArrayList<Post>();
@@ -65,10 +68,40 @@ public class User {
         this.password = "";
     }
 
-    public User(String username, String email, String password) {
+    public User(String username, String email, String password, String firstName, String lastName) {
         this.username = username;
         this.email = email;
         this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getUsername() {
+        return this.username;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getEmail() {
+        return this.email;
     }
 
     public void setUsername(String username) {
@@ -81,18 +114,6 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getUsername() {
-        return this.username;
-    }
-
-    public String getEmail() {
-        return this.email;
     }
 
     public String getPassword() {
@@ -121,5 +142,13 @@ public class User {
 
     public void sendRequestTo(User user) {
         this.sentRequests.add(user);
+    }
+
+    public Set<Post> getLikedPosts() {
+        return likedPosts;
+    }
+
+    public void setLikedPosts(Set<Post> likedPosts) {
+        this.likedPosts = likedPosts;
     }
 }
