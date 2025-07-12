@@ -1,20 +1,17 @@
 package com.groupd.pacebook.controller;
 
-import com.groupd.pacebook.dto.PostDto;
 import com.groupd.pacebook.model.User;
+import com.groupd.pacebook.service.FriendService;
 import com.groupd.pacebook.service.UserService;
-import jakarta.servlet.http.HttpSession;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 
 @Controller
 public class UserController {
@@ -76,7 +73,11 @@ public class UserController {
             return "redirect:/login"; // Redirect if user is not authenticated
         }
 
-        User currentUser = userService.findByEmail(userDetails.getUsername());
+        User currentUser = userService.findByEmail(userDetails.getUsername()).orElse(null);
+
+        if (currentUser == null) {
+            return "redirect:/login";
+        }
 
         List<User> users = userService.getUsers().stream()
                 .filter(user -> !user.getId().equals(currentUser.getId()))
@@ -95,8 +96,11 @@ public class UserController {
             return "redirect:/login";
         }
 
-        User sender = userService.findByEmail(userDetails.getUsername());
+        User sender = userService.findByEmail(userDetails.getUsername()).orElse(null);
 
+        if (sender == null) {
+            return "redirect:/login";
+        }
         boolean success = friendService.sendFriendRequest(sender.getId(), receiverId);
 
         if (!success) {
@@ -104,5 +108,60 @@ public class UserController {
         }
 
         return "redirect:/users"; // Redirect back to user directory
+    }
+
+    @GetMapping("/requests")
+    public String showFriendRequests(@AuthenticationPrincipal UserDetails userDetails, Model model) {
+        if (userDetails == null) {
+            return "redirect:/login";
+        }
+
+        User currentUser = userService.findByEmail(userDetails.getUsername()).orElse(null);
+        if (currentUser == null) {
+            return "redirect:/login";
+        }
+
+        List<User> requestingUsers = friendService.getRequestingUsers(currentUser.getId());
+        List<User> requestedUsers = friendService.getRequestedUsers(currentUser.getId());
+
+        model.addAttribute("requestingUsers", requestingUsers);
+        model.addAttribute("requestedUsers", requestedUsers);
+        return "friend-requests";
+    }
+
+
+    @PostMapping("/accept/{user_id}")
+    public String acceptFriendRequest(@AuthenticationPrincipal UserDetails userDetails, @PathVariable Long user_id) {
+        if (userDetails == null) {
+            return "redirect:/login";
+        }
+
+        User currentUser = userService.findByEmail(userDetails.getUsername()).orElse(null);
+        if (currentUser == null) {
+            return "redirect:/login";
+        }
+
+        friendService.acceptFriendRequest(currentUser.getId(), user_id);
+        return "redirect:/requests";
+    }
+
+    @PostMapping("/decline/{user_id}")
+    public String declineFriendRequest(@AuthenticationPrincipal UserDetails userDetails, @PathVariable Long user_id) {
+        if (userDetails == null) {
+            return "redirect:/login";
+        }
+
+        User currentUser = userService.findByEmail(userDetails.getUsername()).orElse(null);
+        if (currentUser == null) {
+            return "redirect:/login";
+        }
+
+        friendService.declineFriendRequest(currentUser.getId(), user_id);
+        return "redirect:/requests";
+    }
+
+    @GetMapping("/error")
+    public String errorPage(Model model) {
+        return "error";
     }
 }

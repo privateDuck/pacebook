@@ -15,13 +15,13 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="request : ${incomingRequests}">
-            <td th:text="${request.sender.username}"></td>
+        <tr th:each="requestingUser : ${requestingUsers}">
+            <td th:text="${requestingUser.getUsername()}"></td>
             <td>
-                <form th:action="@{/friends/accept/{id}(id=${request.id})}" method="post" style="display:inline-block">
+                <form th:action="@{/accept/{user_id}(user_id=${requestingUser.getId()})}" method="post" style="display:inline-block">
                     <button type="submit" class="btn btn-success btn-sm">Accept</button>
                 </form>
-                <form th:action="@{/friends/decline/{id}(id=${request.id})}" method="post" style="display:inline-block">
+                <form th:action="@{/decline/{user_id}(user_id=${requestingUser.getId()})}" method="post" style="display:inline-block">
                     <button type="submit" class="btn btn-danger btn-sm">Decline</button>
                 </form>
             </td>
@@ -38,9 +38,9 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="request : ${outgoingRequests}">
-            <td th:text="${request.receiver.username}"></td>
-            <td th:text="${request.status}"></td>
+        <tr th:each="requestedUser : ${requestedUsers}">
+            <td th:text="${requestedUser.getUsername()}"></td>
+            <td>Pending</td>
         </tr>
         </tbody>
     </table>

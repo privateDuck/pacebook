@@ -44,7 +44,7 @@
                     <a class="nav-link active" href="/users">Users</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/friends/requests">Friend Requests</a>
+                    <a class="nav-link" href="/requests">Friend Requests</a>
                 </li>
             </ul>
             <form th:action="@{/logout}" method="post" class="d-flex">
@@ -65,8 +65,8 @@
                         <h5 class="card-title" th:text="${user.username}">Username</h5>
                         <p class="card-text text-muted mb-3" th:text="${user.email}">email@example.com</p>
                     </div>
-                    <form th:action="@{/friends/send/{id}(id=${user.id})}" method="post">
-                        <button type="submit" class="btn btn-friend-request btn-sm w-100">Send Friend Request ❤️</button>
+                    <form th:action="@{/users/send-request/{receiverId}(receiverId=${user.id})}" method="post">
+                        <button type="submit" class="btn btn-friend-request btn-sm w-100">Send Friend Request</button>
                     </form>
                 </div>
             </div>
