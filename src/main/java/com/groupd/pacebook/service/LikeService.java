@@ -21,9 +21,10 @@ public class LikeService {
     }
 
 
-    public void likePost(Long id, String email) {
+    public int toggleLikeAndReturnCount(Long postId, String email) {
         User user = userRepository.findByEmail(email).orElseThrow();
-        Post post = postRepository.findById(id).orElseThrow();
+        Post post = postRepository.findById(postId).orElseThrow();
+
         if (post.getLikedBy().remove(user)) {
             user.getLikedPosts().remove(post);
         } else {
@@ -31,6 +32,13 @@ public class LikeService {
             user.getLikedPosts().add(post);
         }
         postRepository.save(post);
+        return post.getLikedBy().size();
+    }
+
+    public boolean isPostLikedByUser(Long postId, String email) {
+        User user = userRepository.findByEmail(email).orElseThrow();
+        Post post = postRepository.findById(postId).orElseThrow();
+        return post.getLikedBy().contains(user);
     }
 
 }

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -169,5 +170,11 @@ public class UserController {
     @GetMapping("/error")
     public String errorPage(Model model) {
         return "error";
+    }
+
+    @PostMapping("/users/friends/remove/{friendId}")
+    public String removeFriendFromUsers(@PathVariable("friendId") Long id, Principal principal) {
+        userService.removeFriend(principal.getName(), id);
+        return "redirect:/users";
     }
 }

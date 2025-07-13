@@ -147,72 +147,127 @@
         /* User Cards Grid */
         .users-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
             gap: 16px;
             max-height: 80vh;
             overflow-y: auto;
+            padding-right: 16px;
+            padding-top: 8px;
         }
 
-        /* User Card */
+            /* User Card */
         .user-card {
             background: #424242;
-            border-radius: 12px;
-            padding: 16px;
+            border-radius: 16px;
+            padding: 20px 16px;
             text-align: center;
             position: relative;
-            transition: all 0.2s ease;
-            border: 1px solid #3a3b3c;
+            transition: all 0.3s ease;
+            border: 1px solid #404142;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            height: 240px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow: hidden;
+        }
+
+        .user-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 0px;
+            background: linear-gradient(90deg, #1877f2, #4facfe, #00f2fe);
+            border-radius: 16px 16px 0 0;
         }
 
         .user-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+            border-color: #1877f2;
         }
 
+        .user-card:hover::before {
+            height: 2px;
+            background: linear-gradient(90deg, #4facfe, #00f2fe, #43e97b);
+        }
+
+        /* User Card Avatar - Made more prominent */
         .user-card-avatar {
-            width: 80px;
-            height: 80px;
-            border-radius: 12px;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
             margin: 0 auto 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            border: 2px solid #3a3b3c;
+            border: 3px solid #3a3b3c;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
         }
 
-        .user-card-name {
+        .user-card:hover .user-card-avatar {
+            border-color: #1877f2;
+            box-shadow: 0 6px 20px rgba(24, 119, 242, 0.3);
+        }
+
+        .user-card-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 4px;
+        }
+
+        .user-card-fullname {
             color: #e4e6ea;
             font-size: 16px;
-            font-weight: 600;
-            margin: 0 0 4px 0;
+            font-weight: 700;
+            margin: 0;
+            line-height: 1.2;
+        }
+
+        .user-card-username {
+            color: #1877f2;
+            font-size: 13px;
+            font-weight: 500;
+            margin: 0;
+            opacity: 0.9;
         }
 
         .user-card-mutual {
             color: #b0b3b8;
-            font-size: 13px;
-            margin: 0 0 16px 0;
+            font-size: 12px;
+            margin: 0;
+            font-weight: 400;
         }
 
         .user-card-actions {
+            margin-top: 12px;
             display: flex;
             gap: 8px;
             justify-content: center;
         }
 
         .btn-confirm {
-            background: #1877f2;
+            background: linear-gradient(135deg, #1877f2, #4facfe);
             color: white;
             border: none;
-            border-radius: 8px;
-            padding: 8px 16px;
+            border-radius: 10px;
+            padding: 10px 20px;
             font-size: 14px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(24, 119, 242, 0.3);
         }
 
         .btn-confirm:hover {
-            background: #166fe5;
+            background: linear-gradient(135deg, #166fe5, #4facfe);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(24, 119, 242, 0.4);
         }
 
         .btn-delete {
@@ -229,6 +284,33 @@
 
         .btn-delete:hover {
             background: #5a6268;
+        }
+
+        .btn-remove {
+            background: #d11a35;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 10px 20px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-remove:hover {
+            background: #b8152d;
+        }
+
+        .friend-status {
+            background: #42b883;
+            color: white;
+            border-radius: 8px;
+            padding: 8px 16px;
+            font-size: 14px;
+            font-weight: 600;
+            display: inline-block;
+            margin-right: 8px;
         }
 
         /* Right Column */
@@ -322,10 +404,13 @@
         .pending-status {
             background: #f59e0b;
             color: white;
-            border-radius: 8px;
-            padding: 6px 12px;
+            border: none;
+            border-radius: 10px;
+            padding: 10px 20px;
             font-size: 13px;
-            font-weight: 600;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
             text-align: center;
         }
 
@@ -441,19 +526,47 @@
                             <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
                         </svg>
                     </div>
-                    <h3 class="user-card-name" th:text="${user.username}">Username</h3>
-                    <p class="user-card-mutual">
-                        <span th:text="${user.friends.size() == 0 ? 'no firends' :
-                                                           (user.friends.size() == 1 ? '1 friend' :
-                                                            user.friends.size() + ' friends')}">
-                                        </span>
-                    </p>
-                    </p>
+                    <div class="user-card-info">
+                        <h3 class="user-card-fullname" th:text="${user.firstName + ' ' + user.lastName}">John Doe</h3>
+                        <p class="user-card-username" th:text="'@' + ${user.username}">@username</p>
+                        <p class="user-card-mutual">
+                            <span th:text="${user.friends.size() == 0 ? 'No friends' :
+                                                               (user.friends.size() == 1 ? '1 friend' :
+                                                                user.friends.size() + ' friends')}">
+                            </span>
+                        </p>
+                    </div>
+
                     <div class="user-card-actions">
-                        <form th:action="@{/users/send-request/{receiverId}(receiverId=${user.id})}" method="post" style="display: inline;">
-                            <button type="submit" class="btn-confirm">Add Friend</button>
-                        </form>
-                        <button type="button" class="btn-delete">Delete</button>
+                        <!-- Check if user is already a friend - show only Remove button -->
+                        <div th:if="${currentUser != null and currentUser.friends.contains(user)}">
+                            <form th:action="@{/users/friends/remove/{friendId}(friendId=${user.id})}" method="post" style="display: inline;">
+                                <button type="submit" class="btn-remove">Remove</button>
+                            </form>
+                        </div>
+
+
+                        <!-- Check if there's a pending request TO this user (outgoing) -->
+                        <div th:if="${currentUser != null and !currentUser.friends.contains(user) and requestedUsers != null and requestedUsers.contains(user)}">
+                            <div class="pending-status">Pending</div>
+                        </div>
+
+                        <!-- Check if there's a pending request FROM this user (incoming) -->
+                        <div th:if="${currentUser != null and !currentUser.friends.contains(user) and requestingUsers != null and requestingUsers.contains(user)}">
+                            <form th:action="@{/accept/{user_id}(user_id=${user.getId()})}" method="post" style="display: inline;">
+                                <button type="submit" class="btn-confirm">Confirm</button>
+                            </form>
+                            <form th:action="@{/decline/{user_id}(user_id=${user.getId()})}" method="post" style="display: inline;">
+                                <button type="submit" class="btn-delete">Delete</button>
+                            </form>
+                        </div>
+
+                        <!-- If not a friend and no pending requests, show Add Friend button -->
+                        <div th:if="${currentUser != null and !currentUser.friends.contains(user) and (requestedUsers == null or !requestedUsers.contains(user)) and (requestingUsers == null or !requestingUsers.contains(user))}">
+                            <form th:action="@{/users/send-request/{receiverId}(receiverId=${user.id})}" method="post" style="display: inline;">
+                                <button type="submit" class="btn-confirm">Add Friend</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -479,12 +592,11 @@
                         <div class="request-info">
                             <h4 class="request-name" th:text="${requestingUser.getUsername()}">Username</h4>
                             <p class="request-mutual">
-                                <span th:text="${requestingUser.friends.size() == 0 ? 'no firends' :
+                                <span th:text="${requestingUser.friends.size() == 0 ? 'no friends' :
                                                            (requestingUser.friends.size() == 1 ? '1 friend' :
                                                             requestingUser.friends.size() + ' friends')}">
-                                        </span>
+                                </span>
                             </p>
-
                         </div>
                         <div class="request-actions">
                             <form th:action="@{/accept/{user_id}(user_id=${requestingUser.getId()})}" method="post">

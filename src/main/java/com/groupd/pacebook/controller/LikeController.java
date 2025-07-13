@@ -5,12 +5,11 @@ import com.groupd.pacebook.service.LikeService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/likes")
@@ -24,9 +23,13 @@ public class LikeController {
     }
 
     @PostMapping("/toggle/{id}")
-    public String addLikes(@PathVariable("id") Long id, Principal principal) {
-        likeService.likePost(id, principal.getName());
-        return "redirect:/home";
+    @ResponseBody
+    public Map<String, Object> toggleLike(@PathVariable("id") Long id, Principal principal) {
+        int likeCount = likeService.toggleLikeAndReturnCount(id, principal.getName());
+        Map<String, Object> response = new HashMap<>();
+        response.put("likeCount", likeCount);
+        response.put("liked", likeService.isPostLikedByUser(id, principal.getName()));
+        return response;
     }
 
 }
