@@ -83,8 +83,13 @@ public class UserController {
                 .filter(user -> !user.getId().equals(currentUser.getId()))
                 .toList();
 
+        List<User> requestingUsers = friendService.getRequestingUsers(currentUser.getId());
+        List<User> requestedUsers = friendService.getRequestedUsers(currentUser.getId());
+
         model.addAttribute("users", users);
         model.addAttribute("currentUser", currentUser);
+        model.addAttribute("requestingUsers", requestingUsers);
+        model.addAttribute("requestedUsers", requestedUsers);
         return "user-directory";
     }
 
@@ -110,24 +115,25 @@ public class UserController {
         return "redirect:/users"; // Redirect back to user directory
     }
 
-    @GetMapping("/requests")
-    public String showFriendRequests(@AuthenticationPrincipal UserDetails userDetails, Model model) {
-        if (userDetails == null) {
-            return "redirect:/login";
-        }
-
-        User currentUser = userService.findByEmail(userDetails.getUsername()).orElse(null);
-        if (currentUser == null) {
-            return "redirect:/login";
-        }
-
-        List<User> requestingUsers = friendService.getRequestingUsers(currentUser.getId());
-        List<User> requestedUsers = friendService.getRequestedUsers(currentUser.getId());
-
-        model.addAttribute("requestingUsers", requestingUsers);
-        model.addAttribute("requestedUsers", requestedUsers);
-        return "friend-requests";
-    }
+//    @GetMapping("/requests")
+//    public String showFriendRequests(@AuthenticationPrincipal UserDetails userDetails, Model model) {
+//        if (userDetails == null) {
+//            return "redirect:/login";
+//        }
+//
+//        User currentUser = userService.findByEmail(userDetails.getUsername()).orElse(null);
+//        if (currentUser == null) {
+//            return "redirect:/login";
+//        }
+//
+//        List<User> requestingUsers = friendService.getRequestingUsers(currentUser.getId());
+//        List<User> requestedUsers = friendService.getRequestedUsers(currentUser.getId());
+//
+//        model.addAttribute("requestingUsers", requestingUsers);
+//        model.addAttribute("requestedUsers", requestedUsers);
+//        return "user-directory";
+//
+//    }
 
 
     @PostMapping("/accept/{user_id}")
@@ -142,7 +148,7 @@ public class UserController {
         }
 
         friendService.acceptFriendRequest(currentUser.getId(), user_id);
-        return "redirect:/requests";
+        return "redirect:/users";
     }
 
     @PostMapping("/decline/{user_id}")
@@ -157,7 +163,7 @@ public class UserController {
         }
 
         friendService.declineFriendRequest(currentUser.getId(), user_id);
-        return "redirect:/requests";
+        return "redirect:/users";
     }
 
     @GetMapping("/error")
